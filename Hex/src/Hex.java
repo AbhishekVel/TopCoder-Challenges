@@ -2,6 +2,10 @@
 public class Hex {
 	
 	public static void main(String[] args) {
+		String[] game = getHex(4, null);
+		printHex(game);
+		
+		
 		
 	}
 	
@@ -17,20 +21,39 @@ public class Hex {
 	 * @param length = number of diagonal hexes/number of vertical hexes
 	 * @return string[] which represents the game
 	 */
-	public String[] getHex(int length, String[] marks) {
+	
+	//    \_/ \ 9 for 4 so assuming # of hexes * 2 + 1 = total space
+	//    \_/ 7  for 3 assuming # of hexes * 2 + 1 = total space
+	public static String[] getHex(int length, String[] marks) {
 		String[] hexGame = new String[length*3];
 		
-		for (int i = hexGame.length; i > hexGame.length * (2/3); i--) {
+		int totalSpaces = length * 2 +1;
+		totalSpaces -= 3; // for the first hex
 		
+		String currentString = "\\_/";
+		
+		//TODO FIX hexGame.length *(2/3), it is returning 0
+		for (int i = hexGame.length-1; i > hexGame.length * (2/3); i--) {
+			
+			System.out.println("i: " + i);
+			hexGame[i] = "";
+			
+			for (int spaces = 0; spaces < totalSpaces; spaces++) {
+				hexGame[i] += " ";
+			}
+			
+			hexGame[i] += nextString(currentString);
+			currentString = hexGame[i];
+			
 		}
 		
-		for (int i = hexGame.length * (2/3); i > hexGame.length * (1/3); i--) {
+		/*for (int i = hexGame.length * (2/3); i > hexGame.length * (1/3); i--) {
 			
 		}
 		
 		for (int i = hexGame.length * (1/3); i >= 0; i--) {
 			
-		}
+		}*/
 		
 		
 		// add in the marks here
@@ -38,6 +61,25 @@ public class Hex {
 		return hexGame;
 		
 		
+	}
+	
+	private static String nextString(String currentString) {
+		String newString = currentString.replaceAll("\\s+","");
+		
+		// adding more hexes
+		if (newString.endsWith("/")) {
+			newString += " \\_/";
+		} else if (newString.endsWith("\\")) {
+			newString += "_/";
+		}
+	
+		return newString;
+	}
+	
+	private static void printHex(String[] hex) {
+		for (int i = 0; i < hex.length; i++) {
+			System.out.println(hex[i]);
+		}
 	}
 	
 	
